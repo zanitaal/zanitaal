@@ -1,0 +1,131 @@
+import java.util.Scanner;
+
+public class FindYourOOTD {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String ulang;
+
+        do {
+            tampilkanHeader();
+            
+            int tipeBadan = pilihTipeBadan(scanner) - 1;
+            int pilihanGaya = pilihTipeGaya(scanner) - 1;
+
+            // Data rekomendasi outfit
+            String[][][] outfitDataHijab = {
+                { // Pear 🍐
+                    { "Blouse panjang, Hijab pashmina", "Highwaist jeans", "Flatshoes", "Tas slingbag" },
+                    { "Blouse ringan, Hijab segiempat", "Rok midi warna gelap", "Docmart", "Ikat pinggang" },
+                    { "Sweater oversized, Hijab pashmina", "Celana kulot", "Sneakers", "Totebag" }
+                },
+                { // Apple 🍎
+                    { "Wrap top, Hijab pashmina", "Inner", "Celana lurus", "Boots" },
+                    { "V-neck, Blouse longgar", "Hijab pashmina", "Celana rampel", "Sepatu hak" },
+                    { "Blazer santai, Inner putih", "Hijab segiempat", "Celana flare", "Loafers" }
+                },
+                { // Hourglass ⏳
+                    { "Cardigan", "Hijab pashmina", "Rok midi", "Sandal bertali", "Ikat pinggang" },
+                    { "Turtleneck", "Hijab segiempat", "Tousers", "Sneakers", "Tas jinjing"},
+                    { "Blouse satin, Outer blazer", "Hijab segiempat", "Rok jeans", "Heels", "Clutch bag" }
+                },
+                { // Rectangle 📏
+                    { "Blouse kerah, Hijab pashmina", "Rok A-line", "Flat shoes", "Tas besar" },
+                    { "Blouse kerah", "Hijab segiempat", "Celana lebar", "Sneakers" },
+                    { "Floral top", "Hijab pashmina", "Boots", "Tas selempang" }
+                }
+            };
+
+            String[][][] outfitDataNonHijab = {
+                { // Pear 🍐
+                    { "Blouse panjang", "Celana high-waist", "Sepatu hak tinggi", "Kalung panjang" },
+                    { "Blouse ringan, Garis vertikal", "Rok pensil", "Wedges", "Anting besar" },
+                    { "Sweater oversized, Tanpa Hijab", "Celana kulot", "Sneakers", "Tas slingbag" }
+                },
+                { // Apple 🍎
+                    { "Wrap top", "Celana lurus", "Boots", "Choker" },
+                    { "V-neck Blouses", "Celana high-waist", "Sepatu heels", "Choker" },
+                    { "Blazer santai, Inner putih", "Celana skinny", "Loafers", "Anting kecil" }
+                },
+                { // Hourglass ⏳
+                    { "Crop top, Outer panjang", "Rok midi", "Sandal bertali", "Ikat pinggang" },
+                    { "Peplum, Skinny jeans", "Rok mini", "Sepatu hak tinggi", "Kalung besar" },
+                    { "Blouse satin, Outer blazer", "Rok span", "Heels", "Clutch bag" }
+                },
+                { // Rectangle 📏
+                    { "Blouse kerah", "Rok A-line", "Flat shoes", "Tas besar" },
+                    { "T-shirt longgar, Blouse kerah", "Celana lebar", "Sneakers", "Kalung panjang" },
+                    { "Sweater crop, Rok pleats", "Boots", "Tas selempang", "Topi baret" }
+                }
+            };
+
+            // Memilih data outfit berdasarkan pilihan gaya
+            if (pilihanGaya == 0) {
+                tampilkanRekomendasi(outfitDataHijab, tipeBadan, scanner);  // Untuk Hijab
+            } else {
+                tampilkanRekomendasi(outfitDataNonHijab, tipeBadan, scanner);  // Untuk Non-Hijab
+            }
+
+            System.out.print("\nMau coba lagi? (y/n): ");
+            ulang = scanner.next();
+
+        } while (ulang.equalsIgnoreCase("y"));
+
+        System.out.println("\nTerima kasih telah menggunakan aplikasi ini!<3");
+        scanner.close();
+    }
+
+    public static void tampilkanHeader() {
+        System.out.println("=====================================================");
+        System.out.println("       Hai:D Selamat datang di Find Your OOTD!");
+        System.out.println("Kami akan membantu memilih outfit yang pas buat kamu!");
+        System.out.println("=====================================================");
+    }
+
+    public static int pilihTipeBadan(Scanner scanner) {
+        System.out.println("\nPilih tipe badan kamu:");
+        System.out.println("1. Pear (Pinggul lebih lebar dari bahu)");
+        System.out.println("2. Apple (Bahu lebih lebar dari pinggang)");
+        System.out.println("3. Hourglass (Proporsional)");
+        System.out.println("4. Rectangle (Bahu, pinggang, dan pinggul sejajar)");
+        System.out.print("Masukkan pilihan tipe badan (1-4): ");
+        return scanner.nextInt();
+    }
+
+    public static int pilihTipeGaya(Scanner scanner) {
+        System.out.println("\nPilih tipe pakaian:");
+        System.out.println("1. Hijab");
+        System.out.println("2. Non-Hijab");
+        System.out.print("Masukkan pilihan tipe (1/2): ");
+        return scanner.nextInt();
+    }
+
+    public static void tampilkanRekomendasi(String[][][] outfitData, int tipeBadan, Scanner scanner) {
+        String tipe = switch (tipeBadan) {
+            case 0 -> "Pear (Pinggul lebih lebar dari bahu)";
+            case 1 -> "Apple (Bahu lebih lebar dari pinggang)";
+            case 2 -> "Hourglass (Proporsional)";
+            case 3 -> "Rectangle (Sejajar)";
+            default -> "Tidak diketahui";
+        };
+
+        int alternatif = 0;
+        int maxAlternatif = 3; // Maksimal 3 rekomendasi
+        boolean suka = false;
+
+        while (alternatif < maxAlternatif && !suka) {
+            String[] outfit = outfitData[tipeBadan][alternatif];
+            System.out.println("\nRekomendasi untuk tipe badan '" + tipe + "'");
+            for (String item : outfit) System.out.println("- " + item);
+
+            System.out.print("\nApa kamu suka dengan rekomendasi ini? (y/n): ");
+            suka = scanner.next().equalsIgnoreCase("y");
+
+            if (!suka && alternatif < maxAlternatif - 1) {
+                alternatif++;
+                System.out.println("\nOke! Kami akan memberi kamu outfit lain...");
+            } else if (!suka) {
+                System.out.println("\nMaaf, kami sudah tidak memiliki alternatif lain :')");
+            }
+        }
+    }
+}
